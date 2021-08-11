@@ -4,7 +4,6 @@ import android.view.View
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.example.bookskotlin.R
 import com.example.bookskotlin.base.BaseFragment
@@ -37,7 +36,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, DescriptionViewModel>(
 
 
     private fun setupClickButtonStart() {
-        binding.btnStart.setOnClickListener{
+        binding.btnStart.setOnClickListener {
             binding.btnStart.visibility = View.GONE
             binding.rv.visibility = View.VISIBLE
             viewModel.getList()
@@ -53,7 +52,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, DescriptionViewModel>(
         viewModel.fetchBook.observe(viewLifecycleOwner, {
             binding.btnStart.visibility = View.GONE
             binding.rv.visibility = View.VISIBLE
-            bookAdapter.addList(it)
+            bookAdapter.submitList(it)
         })
     }
 

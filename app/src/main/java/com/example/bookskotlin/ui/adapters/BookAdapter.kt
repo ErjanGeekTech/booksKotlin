@@ -2,21 +2,20 @@ package com.example.bookskotlin.ui.adapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.bookskotlin.databinding.ItemBooksBinding
 import com.example.bookskotlin.models.BooksModel
 
 class BookAdapter(
     val onItemClick: (id: Int) -> Unit
-) : RecyclerView.Adapter<BookAdapter.BookViewHolder>() {
+) : ListAdapter<BooksModel, BookAdapter.BookViewHolder>(
+    differCallback
+) {
 
-    var list: ArrayList<BooksModel> = ArrayList()
     lateinit var binding: ItemBooksBinding
 
-    fun addList(getList: ArrayList<BooksModel>) {
-        list = getList
-        notifyDataSetChanged()
-    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BookViewHolder {
         binding = ItemBooksBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -25,23 +24,42 @@ class BookAdapter(
 
 
     override fun onBindViewHolder(holder: BookViewHolder, position: Int) {
-        list[position].let { holder.onBind(it) }
-        holder.itemView.setOnClickListener {
-            onItemClick(position)
+        getItem(position)?.let { holder.onBind(it) }
+    }
+
+
+    inner class BookViewHolder(val binding: ItemBooksBinding) :
+        RecyclerView.ViewHolder(binding.root) {
+
+        init {
+            itemView.setOnClickListener {
+                getItem(absoluteAdapterPosition)?.apply { onItemClick(absoluteAdapterPosition) }
+            }
         }
-    }
-
-    override fun getItemCount(): Int {
-        return list.size
-    }
-
-    class BookViewHolder(val binding: ItemBooksBinding) : RecyclerView.ViewHolder(binding.root) {
-
 
         fun onBind(model: BooksModel) {
             binding.itemImageBook.setImageResource(model.image)
             binding.textTitleBook.text = model.title
         }
 
+    }
+
+    companion object {
+        val differCallback = object : DiffUtil.ItemCallback<BooksModel>() {
+            override fun areItemsTheSame(
+                oldItem: BooksModel,
+                newItem: BooksModel
+            ): Boolean {
+                return oldItem.title == newItem.title
+            }
+
+            override fun areContentsTheSame(
+                oldItem: BooksModel,
+                newItem: BooksModel
+            ): Boolean {
+                return oldItem == newItem
+            }
+
+        }
     }
 }

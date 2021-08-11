@@ -8,17 +8,17 @@ import com.example.bookskotlin.models.BooksModel
 
 class DescriptionViewModel : ViewModel() {
 
-    var fetchBook : MutableLiveData<ArrayList<BooksModel>> = MutableLiveData()
+    var fetchBook: MutableLiveData<ArrayList<BooksModel>> = MutableLiveData()
     var list: ArrayList<BooksModel> = ArrayList()
 
     fun getBook(id: Int) = list[id]
 
-    fun  getList(){
+    fun getList() {
         list.add(
             BooksModel(
                 "Цветы для Элджернона",
                 "Элджернон — это мышь, которой в лабораторных условиях повысили уровень интеллекта. Вдохновленные успехом ученые-экспериментаторы решают опробовать свое открытие на людях. Их пациентом становится умственно отсталый Шарль. Эксперимент удается, и Шарль начинает жить нормальной жизнью. Он добивается успехов на научной ниве, влюбляется в девушку Алису. Однако вскоре он оказывается перед сложным выбором — оставаться «подопытным кроликом» или вновь стать самим собой.",
-               R.drawable.algernon
+                R.drawable.algernon
             )
         )
         list.add(
